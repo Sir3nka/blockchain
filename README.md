@@ -11,3 +11,4 @@ My take on learning blockchain concept, no idea what i'll do with it.
 - Maybe graphical representation of current blockchain (that would be cool)
 
 
+Based on materials/sources from Jetbrains (they are great)
