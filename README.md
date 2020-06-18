@@ -2,7 +2,7 @@
 My take on learning blockchain concept, no idea what i'll do with it.
 
 ## What is done
-- Created a blocks model that are linked to each other
+- Created a blocks modell that are linked to each other
 - Somewhat functional proof of work concept so creating block actually takes effort
 
 ## TODO

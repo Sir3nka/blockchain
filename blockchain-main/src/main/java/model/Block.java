@@ -2,12 +2,12 @@ package model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import utils.StringUtil;
 
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+import utils.StringUtil;
 
 @EqualsAndHashCode
 final class Block {
@@ -22,8 +22,10 @@ final class Block {
     private final int id;
     private final long timeStamp;
     private int magicNumber;
+
     @Getter
     private final String previousBlock;
+
     @Getter
     private String currentBlock;
     private final double executionTime;
@@ -32,7 +34,7 @@ final class Block {
      * @param leadingZeros = number of leading zeros for hash to be valid
      *                     more zeros makes it more expensive to create a block unit
      */
-    public static void setLeadingZeros(int leadingZeros) {
+    static void setLeadingZeros(int leadingZeros) {
         Block.leadingZeros = leadingZeros;
         createRegexForHashMatching();
     }
