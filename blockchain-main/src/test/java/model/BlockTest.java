@@ -1,22 +1,26 @@
 package model;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
+@DisplayName("Basic block chain creation suite")
 public class BlockTest {
 
     private AbstractBlockFabric blockFabric;
 
-    @Before
+    @BeforeEach
     public void init() {
         blockFabric = new BlockFabricV1();
     }
 
     @Test
+    @DisplayName("Creating 5 blocks with leading zeros of 1")
     public void createBlocks() {
         Stack<Block> blockStack = new Stack<>();
         Block.setLeadingZeros(1);
@@ -32,6 +36,7 @@ public class BlockTest {
     }
 
     @Test
+    @DisplayName("Checking against regex for containing leading zeros")
     public void shouldContainLeadingZeros() {
         Block.setLeadingZeros(1);
         Block firstBlock = blockFabric.createFirstBlock();
@@ -52,6 +57,7 @@ public class BlockTest {
     }
 
     @Test
+    @DisplayName("Check if first block has previous block equal to 0")
     public void verifyStringRepresentation() {
         Block.setLeadingZeros(1);
         Block firstBlock = blockFabric.createFirstBlock();
@@ -59,6 +65,18 @@ public class BlockTest {
         assert(firstBlock.getPreviousBlock().equals("0"));
         Pattern pattern = Pattern.compile("^0");
         assert(pattern.matcher(firstBlock.getCurrentBlock()).find());
+
+        System.out.println(firstBlock.toString());
+    }
+
+    @Test
+    @DisplayName("Check against leading zeros of 0")
+    public void shouldWorkWithoutLeadingZeros() {
+        Block.setLeadingZeros(0);
+        Block firstBlock = blockFabric.createFirstBlock();
+
+        assert(firstBlock.getPreviousBlock().equals("0"));
+        assert(!firstBlock.getCurrentBlock().equals(""));
 
         System.out.println(firstBlock.toString());
     }

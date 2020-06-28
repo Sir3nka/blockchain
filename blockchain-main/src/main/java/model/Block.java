@@ -7,10 +7,11 @@ import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+
 import utils.StringUtil;
 
 @EqualsAndHashCode
-final class Block {
+public final class Block {
     private static int leadingZeros = 0;
     private static final double nanoSecondsDivider = 1_000_000_000.0;
     private static Pattern regex;
@@ -30,11 +31,8 @@ final class Block {
     private String currentBlock;
     private final double executionTime;
 
-    /**
-     * @param leadingZeros = number of leading zeros for hash to be valid
-     *                     more zeros makes it more expensive to create a block unit
-     */
-    static void setLeadingZeros(int leadingZeros) {
+    //Be careful, more zeros leads to extending time needed to create single block
+    public static void setLeadingZeros(int leadingZeros) {
         Block.leadingZeros = leadingZeros;
         createRegexForHashMatching();
     }
@@ -46,10 +44,10 @@ final class Block {
         builder.append("Block: \n")
                 .append("Id: ").append(id).append("\n")
                 .append("Timestamp: ").append(timeStamp).append("\n")
+                .append("Magic number: ").append(magicNumber).append("\n")
                 .append("Hash of the previous block: \n").append(previousBlock).append("\n")
                 .append("Hash of the block: \n").append(currentBlock).append("\n")
-                .append("Magic number: ").append(magicNumber).append("\n")
-                .append("Execution time: ").append(executionTime);
+                .append("Block was generating for ").append(executionTime).append(" seconds\n");
 
         return builder.toString();
     }
@@ -65,10 +63,6 @@ final class Block {
         return builder.toString();
     }
 
-    /**
-     * function helper to reduce redundant
-     * pattern compilation which is costly
-     */
     private static void createRegexForHashMatching() {
         StringBuilder regexBuilder = new StringBuilder();
         regexBuilder.append("^");
@@ -80,21 +74,18 @@ final class Block {
     }
 
     private void findHashWithLeadingZeros() {
-        this.currentBlock = "";
+        this.magicNumber = ThreadLocalRandom.current()
+                .nextInt(min, max + 1);
+        this.currentBlock = StringUtil.applySha256(this.getStringRepresentation());
 
         while (!regex.matcher(currentBlock).find()) {
-
             this.magicNumber = ThreadLocalRandom
                     .current()
                     .nextInt(min, max + 1);
             this.currentBlock = StringUtil.applySha256(this.getStringRepresentation());
-
         }
     }
 
-    /**
-     * Method for creating first block of blockchain
-     */
     Block() {
         long start = System.nanoTime();
 
@@ -107,10 +98,6 @@ final class Block {
 
     }
 
-    /**
-     * Constructor used to create next blocks
-     * @param previous = Previous block to make them connected
-     */
     Block(Block previous) {
         long start = System.nanoTime();
 
