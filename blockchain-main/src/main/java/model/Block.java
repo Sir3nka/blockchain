@@ -31,7 +31,6 @@ public final class Block {
     private String currentBlock;
     private final double executionTime;
 
-    //Be careful, more zeros leads to extending time needed to create single block
     public static void setLeadingZeros(int leadingZeros) {
         Block.leadingZeros = leadingZeros;
         createRegexForHashMatching();
@@ -52,7 +51,7 @@ public final class Block {
         return builder.toString();
     }
 
-    private String getStringRepresentation() {
+     String getStringRepresentation() {
         StringBuilder builder = new StringBuilder();
 
         builder.append(id)
@@ -95,7 +94,6 @@ public final class Block {
         findHashWithLeadingZeros();
 
         executionTime = (System.nanoTime() - start) / nanoSecondsDivider;
-
     }
 
     Block(Block previous) {

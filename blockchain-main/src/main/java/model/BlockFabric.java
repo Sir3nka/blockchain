@@ -1,6 +1,6 @@
 package model;
 
-public interface AbstractBlockFabric {
+public interface BlockFabric {
     default Block createFirstBlock() {
         throw new NotImplementedException("Method is not implemented!");
     }

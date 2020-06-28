@@ -12,11 +12,11 @@ import java.util.stream.IntStream;
 @DisplayName("Basic block chain creation suite")
 public class BlockTest {
 
-    private AbstractBlockFabric blockFabric;
+    private BlockFabric blockFabric;
 
     @BeforeEach
     public void init() {
-        blockFabric = new BlockFabricV1();
+        blockFabric = BlockFabricV1.getInstance();
     }
 
     @Test

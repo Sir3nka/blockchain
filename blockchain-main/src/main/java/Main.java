@@ -1,4 +1,4 @@
-import model.AbstractBlockFabric;
+import model.BlockFabric;
 import model.Block;
 import model.BlockFabricV1;
 
@@ -14,7 +14,7 @@ public class Main {
 
         try (Scanner scanner = new Scanner(System.in)) {
             int numberOfLeadingZero = scanner.nextInt();
-            AbstractBlockFabric blockFabric = new BlockFabricV1();
+            BlockFabric blockFabric = BlockFabricV1.getInstance();
 
             Stack<Block> blockStack = new Stack<>();
             Block.setLeadingZeros(numberOfLeadingZero);
