@@ -16,7 +16,7 @@ public class BlockTest {
 
     @BeforeEach
     public void init() {
-        blockFabric = BlockFabricV1.getInstance();
+        blockFabric = new BlockFabricV1();
     }
 
     @Test
@@ -43,17 +43,17 @@ public class BlockTest {
 
         Block.setLeadingZeros(1);
         Pattern pattern = Pattern.compile("^0");
-        assert(pattern.matcher(firstBlock.getCurrentBlock()).find());
+        assert(pattern.matcher(firstBlock.getCurrentHash()).find());
 
         Block.setLeadingZeros(2);
         firstBlock = blockFabric.createFirstBlock();
         pattern = Pattern.compile("^00");
-        assert(pattern.matcher(firstBlock.getCurrentBlock()).find());
+        assert(pattern.matcher(firstBlock.getCurrentHash()).find());
 
         pattern = Pattern.compile("^000");
         Block.setLeadingZeros(3);
         firstBlock = blockFabric.createFirstBlock();
-        assert(pattern.matcher(firstBlock.getCurrentBlock()).find());
+        assert(pattern.matcher(firstBlock.getCurrentHash()).find());
     }
 
     @Test
@@ -62,9 +62,9 @@ public class BlockTest {
         Block.setLeadingZeros(1);
         Block firstBlock = blockFabric.createFirstBlock();
 
-        assert(firstBlock.getPreviousBlock().equals("0"));
+        assert(firstBlock.getPreviousHash().equals("0"));
         Pattern pattern = Pattern.compile("^0");
-        assert(pattern.matcher(firstBlock.getCurrentBlock()).find());
+        assert(pattern.matcher(firstBlock.getCurrentHash()).find());
 
         System.out.println(firstBlock.toString());
     }
@@ -75,8 +75,8 @@ public class BlockTest {
         Block.setLeadingZeros(0);
         Block firstBlock = blockFabric.createFirstBlock();
 
-        assert(firstBlock.getPreviousBlock().equals("0"));
-        assert(!firstBlock.getCurrentBlock().equals(""));
+        assert(firstBlock.getPreviousHash().equals("0"));
+        assert(!firstBlock.getCurrentHash().equals(""));
 
         System.out.println(firstBlock.toString());
     }

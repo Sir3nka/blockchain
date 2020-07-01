@@ -7,14 +7,14 @@ import java.util.Stack;
 import java.util.stream.IntStream;
 
 public class Main {
-    private static String ENTRY_MESSAGE = "Enter how many zeros the hash must start with: ";
 
     public static void main(String[] args) {
+        String ENTRY_MESSAGE = "Enter how many zeros the hash must start with: ";
         System.out.print(ENTRY_MESSAGE);
 
         try (Scanner scanner = new Scanner(System.in)) {
             int numberOfLeadingZero = scanner.nextInt();
-            BlockFabric blockFabric = BlockFabricV1.getInstance();
+            BlockFabric blockFabric = new BlockFabricV1();
 
             Stack<Block> blockStack = new Stack<>();
             Block.setLeadingZeros(numberOfLeadingZero);
