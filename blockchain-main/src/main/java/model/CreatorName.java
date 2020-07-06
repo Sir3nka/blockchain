@@ -1,10 +1,8 @@
 package model;
-
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 @NoArgsConstructor
-public class CreatorName extends BlockDecorator implements Serializable {
+public class CreatorName extends BlockDecorator {
     private String msg;
     private static final double serialVersionUID = 47L;
 

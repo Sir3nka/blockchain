@@ -1,6 +1,6 @@
 package model;
-
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 public class ChatHistory extends BlockDecorator{
     private String history;

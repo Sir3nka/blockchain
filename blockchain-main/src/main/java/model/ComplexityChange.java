@@ -1,5 +1,4 @@
 package model;
-
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
