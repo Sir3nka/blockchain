@@ -3,7 +3,6 @@ package model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
@@ -12,7 +11,7 @@ import java.util.stream.IntStream;
 import utils.StringUtil;
 
 @EqualsAndHashCode
-public final class Block implements Serializable {
+public class Block implements SimpleBlock{
     private static final double serialVersionUID = 42L;
     private static int leadingZeros = 0;
     private static Pattern regex;
@@ -31,6 +30,8 @@ public final class Block implements Serializable {
 
     @Getter
     private String currentHash;
+
+    @Getter
     private final double executionTime;
 
     public static void setLeadingZeros(int leadingZeros) {
@@ -42,7 +43,7 @@ public final class Block implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("Block: \n")
+        builder.append("Block: ").append("\n")
                 .append("Id: ").append(id).append("\n")
                 .append("Timestamp: ").append(timeStamp).append("\n")
                 .append("Magic number: ").append(magicNumber).append("\n")
@@ -53,7 +54,7 @@ public final class Block implements Serializable {
         return builder.toString();
     }
 
-     String getStringRepresentation() {
+     public String getStringRepresentation() {
         StringBuilder builder = new StringBuilder();
 
         builder.append(id)
@@ -86,30 +87,26 @@ public final class Block implements Serializable {
             this.currentHash = StringUtil.applySha256(this.getStringRepresentation());
         }
     }
+
     static boolean isMatchingRegex(String hash) {
         return regex.matcher(hash).find();
     }
 
     Block() {
         long start = System.nanoTime();
-
         this.id = 1;
         this.timeStamp = new Date().getTime();
         previousHash = "0";
         findHashWithLeadingZeros();
-
         executionTime = (System.nanoTime() - start) / NANO_SECONDS_DIVIDER;
     }
 
-    Block(Block previous) {
+    Block(SimpleBlock previous) {
         long start = System.nanoTime();
-
         this.id = previous.getId() + 1;
         this.timeStamp = new Date().getTime();
         this.previousHash = previous.getCurrentHash();
         findHashWithLeadingZeros();
-
         executionTime = (System.nanoTime() - start) / NANO_SECONDS_DIVIDER;
-
     }
 }

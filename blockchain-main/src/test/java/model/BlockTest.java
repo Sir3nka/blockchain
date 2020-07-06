@@ -12,24 +12,22 @@ import java.util.stream.IntStream;
 @DisplayName("Basic block chain creation suite")
 public class BlockTest {
 
-    private BlockFabric blockFabric;
 
     @BeforeEach
     public void init() {
-        blockFabric = new BlockFabricV1();
     }
 
     @Test
     @DisplayName("Creating 5 blocks with leading zeros of 1")
     public void createBlocks() {
-        Stack<Block> blockStack = new Stack<>();
+        Stack<SimpleBlock> blockStack = new Stack<>();
         Block.setLeadingZeros(1);
-        Block firstBlock = blockFabric.createFirstBlock();
+        SimpleBlock firstBlock = BlockBuilder.buildNext(null).build();
         blockStack.push(firstBlock);
 
         IntStream.range(0, 4)
                 .forEach(number -> {
-                    blockStack.push(blockFabric.createNextBlock(blockStack.lastElement()));
+                    blockStack.push(BlockBuilder.buildNext(blockStack.lastElement()).build());
                 });
 
         blockStack.forEach(System.out::println);
@@ -39,20 +37,20 @@ public class BlockTest {
     @DisplayName("Checking against regex for containing leading zeros")
     public void shouldContainLeadingZeros() {
         Block.setLeadingZeros(1);
-        Block firstBlock = blockFabric.createFirstBlock();
+        SimpleBlock firstBlock = BlockBuilder.buildNext(null).build();
 
         Block.setLeadingZeros(1);
         Pattern pattern = Pattern.compile("^0");
         assert(pattern.matcher(firstBlock.getCurrentHash()).find());
 
         Block.setLeadingZeros(2);
-        firstBlock = blockFabric.createFirstBlock();
+        firstBlock = BlockBuilder.buildNext(null).build();
         pattern = Pattern.compile("^00");
         assert(pattern.matcher(firstBlock.getCurrentHash()).find());
 
         pattern = Pattern.compile("^000");
         Block.setLeadingZeros(3);
-        firstBlock = blockFabric.createFirstBlock();
+        firstBlock = BlockBuilder.buildNext(null).build();
         assert(pattern.matcher(firstBlock.getCurrentHash()).find());
     }
 
@@ -60,7 +58,7 @@ public class BlockTest {
     @DisplayName("Check if first block has previous block equal to 0")
     public void verifyStringRepresentation() {
         Block.setLeadingZeros(1);
-        Block firstBlock = blockFabric.createFirstBlock();
+        SimpleBlock firstBlock = BlockBuilder.buildNext(null).build();
 
         assert(firstBlock.getPreviousHash().equals("0"));
         Pattern pattern = Pattern.compile("^0");
@@ -73,7 +71,7 @@ public class BlockTest {
     @DisplayName("Check against leading zeros of 0")
     public void shouldWorkWithoutLeadingZeros() {
         Block.setLeadingZeros(0);
-        Block firstBlock = blockFabric.createFirstBlock();
+        SimpleBlock firstBlock = BlockBuilder.buildNext(null).build();
 
         assert(firstBlock.getPreviousHash().equals("0"));
         assert(!firstBlock.getCurrentHash().equals(""));
