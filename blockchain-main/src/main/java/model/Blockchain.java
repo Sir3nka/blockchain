@@ -2,6 +2,7 @@ package model;
 
 import common.LoggerHandler;
 import lombok.Getter;
+import lombok.Setter;
 import utils.StringUtil;
 
 import java.io.*;
@@ -11,9 +12,11 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Blockchain implements Serializable {
+    @Setter
     private static String FILE_NAME = "blockchain.ser";
     private static final double serialVersionUID = 42L;
     private static Blockchain instance;
+    @Getter
     private List<SimpleBlock> blockchain;
     private Queue<String> messages;
     @Getter
