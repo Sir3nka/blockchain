@@ -28,7 +28,7 @@ public class Miner implements Runnable {
             try {
                 blockchain.addBlock(block);
             } catch (Exception ex) {
-                System.out.printf("Exception occured on thread %s for %s", Thread.currentThread().getName(), name);
+               LoggerHandler.logger.error(String.format("Exception occured on thread %s for %s", Thread.currentThread().getName(), name));
             }
             LoggerHandler.logger.info(String.format("Miner %s created %s", name, block));
         }
