@@ -2,11 +2,13 @@
 My take on learning blockchain concept, no idea what i'll do with it.
 
 ## What is done
-- Created a blocks modell that are linked to each other
+- Created a blockchain that is valid and serialized
 - Somewhat functional proof of work concept so creating block actually takes effort
+- Adjusting complexity based on previous blocks
+- Added ability to save something to mined blocks (messages in this case)
+- Added miners which mine them on separated threads
 
 ## TODO
-- Create workers that actually mine them
 - Make them useful?
 - Maybe graphical representation of current blockchain (that would be cool)
 
