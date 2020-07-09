@@ -1,4 +1,4 @@
-import model.Miner;
+import miners.Miner;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

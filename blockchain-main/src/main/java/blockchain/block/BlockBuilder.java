@@ -1,4 +1,8 @@
-package model;
+package blockchain.block;
+
+import blockchain.block.decorators.ChatHistory;
+import blockchain.block.decorators.ComplexityChange;
+import blockchain.block.decorators.CreatorName;
 
 public class BlockBuilder {
     private SimpleBlock block;

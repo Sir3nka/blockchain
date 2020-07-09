@@ -1,15 +1,19 @@
-package model;
+package miners;
 
-import common.LoggerHandler;
+import blockchain.Blockchain;
+import blockchain.block.BlockBuilder;
+import blockchain.block.SimpleBlock;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class Miner implements Runnable {
-    private Blockchain blockchain;
+    private blockchain.Blockchain blockchain;
     private String name;
 
     public Miner(String name) {
         this.name = name;
         this.blockchain = Blockchain.getInstance();
-        LoggerHandler.logger.trace(String.format("Created new worker %s on thread %s",
+        log.trace(String.format("Created new worker %s on thread %s",
                 name, Thread.currentThread().getName()));
     }
 
@@ -28,9 +32,9 @@ public class Miner implements Runnable {
             try {
                 blockchain.addBlock(block);
             } catch (Exception ex) {
-               LoggerHandler.logger.error(String.format("Exception occured on thread %s for %s", Thread.currentThread().getName(), name));
+               log.error(String.format("Exception occured on thread %s for %s", Thread.currentThread().getName(), name));
             }
-            LoggerHandler.logger.info(String.format("Miner %s created %s", name, block));
+            log.info(String.format("Miner %s created %s", name, block));
         }
     }
 }

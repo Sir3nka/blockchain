@@ -1,8 +1,9 @@
-package model;
+package blockchain.block.decorators;
 import lombok.NoArgsConstructor;
+import blockchain.block.SimpleBlock;
 
 @NoArgsConstructor
-public class ComplexityChange extends BlockDecorator{
+public class ComplexityChange extends BlockDecorator {
     private String msg;
     private static final double serialVersionUID = 46L;
 

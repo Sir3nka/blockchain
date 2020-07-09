@@ -6,7 +6,7 @@ My take on learning blockchain concept, no idea what i'll do with it.
 - Somewhat functional proof of work concept so creating block actually takes effort
 - Adjusting complexity based on previous blocks
 - Added ability to save something to mined blocks (messages in this case)
-- Added miners which mine them on separated threads
+- Added blockchain which mine them on separated threads
 
 ## TODO
 - Make them useful?

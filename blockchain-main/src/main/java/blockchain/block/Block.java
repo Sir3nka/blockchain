@@ -1,4 +1,4 @@
-package model;
+package blockchain.block;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,9 +11,10 @@ import java.util.stream.IntStream;
 import utils.StringUtil;
 
 @EqualsAndHashCode
-public class Block implements SimpleBlock{
+public class Block implements SimpleBlock {
     private static final double serialVersionUID = 42L;
     private static int leadingZeros = 0;
+    @Getter
     private static Pattern regex;
 
     private static final double NANO_SECONDS_DIVIDER = 1_000_000_000.0;
@@ -80,7 +81,7 @@ public class Block implements SimpleBlock{
                 .nextInt(MIN_RANGE, MAX_RANGE + 1);
         this.currentHash = StringUtil.applySha256(this.getStringRepresentation());
 
-        while (!isMatchingRegex(currentHash)) {
+        while (!isMatchingLeadingZeros(currentHash)) {
             this.magicNumber = ThreadLocalRandom
                     .current()
                     .nextInt(MIN_RANGE, MAX_RANGE + 1);
@@ -88,7 +89,7 @@ public class Block implements SimpleBlock{
         }
     }
 
-    static boolean isMatchingRegex(String hash) {
+    public static boolean isMatchingLeadingZeros(String hash) {
         return regex.matcher(hash).find();
     }
 

@@ -1,8 +1,9 @@
-package model;
+package blockchain.block.decorators;
 import lombok.NoArgsConstructor;
+import blockchain.block.SimpleBlock;
 
 @NoArgsConstructor
-public class ChatHistory extends BlockDecorator{
+public class ChatHistory extends BlockDecorator {
     private String history;
     private static final double serialVersionUID = 45L;
 
@@ -10,6 +11,7 @@ public class ChatHistory extends BlockDecorator{
         super(block);
         this.history = history;
     }
+
     @Override
     public String toString() { return block + history;
     }

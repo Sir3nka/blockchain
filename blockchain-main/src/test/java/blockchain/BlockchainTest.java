@@ -1,7 +1,6 @@
-package model;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+package blockchain;
+import blockchain.block.BlockBuilder;
+import blockchain.block.SimpleBlock;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,17 +12,32 @@ import java.io.IOException;
 @DisplayName("Blockchain test suite")
 class BlockchainTest {
     private Blockchain blockchain;
-    private final static String FILE_NAME = "Test_suite.ser";
+    private final static String FILE_NAME = "blockchain.ser";
 
-    //fixme : does not clear serialized instances before each test
     @BeforeEach
     void getInstance() {
-        Blockchain.setFILE_NAME(FILE_NAME);
         File serialized = new File(FILE_NAME);
         if (serialized.exists()) {
             serialized.delete();
         }
         blockchain = Blockchain.getInstance();
+    }
+
+    @AfterEach
+    void clear() {
+        File serialized = new File(FILE_NAME);
+        if (serialized.exists()) {
+            serialized.delete();
+        }
+    }
+
+    @Test
+    @DisplayName("Adding two valid blocks")
+    void twoValidBlocks() throws IOException {
+        SimpleBlock block = BlockBuilder.buildNext(null).build();
+        blockchain.addBlock(block);
+        blockchain.addBlock(BlockBuilder.buildNext(blockchain.getLastBlock()).build());
+        assert(blockchain.getBlockchain().size() == 2);
     }
 
     @Test

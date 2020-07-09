@@ -1,5 +1,6 @@
-package model;
+package blockchain.block.decorators;
 import lombok.NoArgsConstructor;
+import blockchain.block.SimpleBlock;
 
 @NoArgsConstructor
 public class CreatorName extends BlockDecorator {

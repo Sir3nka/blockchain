@@ -1,8 +1,10 @@
-package model;
+package blockchain;
 
-import common.LoggerHandler;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import blockchain.block.Block;
+import blockchain.block.BlockBuilder;
+import blockchain.block.SimpleBlock;
 import utils.StringUtil;
 
 import java.io.*;
@@ -11,8 +13,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+@Log4j2
 public class Blockchain implements Serializable {
-    @Setter
     private static String FILE_NAME = "blockchain.ser";
     private static final double serialVersionUID = 42L;
     private static Blockchain instance;
@@ -55,10 +57,10 @@ public class Blockchain implements Serializable {
                     .build();
             blockchain.add(newBlock);
             lastBlock = newBlock;
-            LoggerHandler.logger.trace(String.format("Verified block, current hash %s", block.getCurrentHash()));
+            log.trace(String.format("Verified block, current hash %s", block.getCurrentHash()));
             serializeBlockchain();
         } else {
-            LoggerHandler.logger.error(String.format("Failed to verify %s", block));
+            log.error(String.format("Failed to verify %s", block));
         }
     }
 
@@ -101,13 +103,13 @@ public class Blockchain implements Serializable {
                 objectOutputStream.flush();
             }
         }
-        LoggerHandler.logger.trace("Saved blockchain instance" + this);
+        log.trace("Saved blockchain instance" + this);
     }
 
     private static boolean deserialize() {
         File file = new File(FILE_NAME);
         if (file.exists()) {
-            LoggerHandler.logger.trace("Deserialize blockchain...");
+            log.trace("Deserialize blockchain...");
             try (FileInputStream fileInputStream = new FileInputStream(FILE_NAME)) {
                 try (ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
                     instance = (Blockchain) objectInputStream.readObject();
@@ -118,23 +120,23 @@ public class Blockchain implements Serializable {
                 e.printStackTrace();
             }
 
-            LoggerHandler.logger.trace("Successfully loaded blockchain");
+            log.trace("Successfully loaded blockchain");
             Block.setLeadingZeros(instance.lastN);
             return true;
         } else {
-            LoggerHandler.logger.trace("Haven't found blockchain file, creating a new object...");
+            log.trace("Haven't found blockchain file, creating a new object...");
             return false;
         }
     }
 
     private boolean verifyBlock(SimpleBlock block) {
-        LoggerHandler.logger.trace(String.format("Veryfing block.. %s", block));
+        log.trace(String.format("Veryfing block.. %s", block));
         return lastBlock != null ?
                 block.getPreviousHash().equals(lastBlock.getCurrentHash()) &&
                         StringUtil.applySha256(block.getStringRepresentation()).equals(block.getCurrentHash()) &&
-                        Block.isMatchingRegex(block.getCurrentHash()) :
+                        Block.isMatchingLeadingZeros(block.getCurrentHash()) :
                 block.getPreviousHash().equals("0") && StringUtil.applySha256(block.getStringRepresentation())
-                        .equals(block.getCurrentHash()) && Block.isMatchingRegex(block.getCurrentHash());
+                        .equals(block.getCurrentHash()) && Block.isMatchingLeadingZeros(block.getCurrentHash());
     }
 
     static class InvalidBlockException extends RuntimeException {

@@ -1,4 +1,4 @@
-package model;
+package blockchain.block;
 
 import java.io.Serializable;
 
