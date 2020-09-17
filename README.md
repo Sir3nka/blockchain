@@ -12,5 +12,10 @@ My take on learning blockchain concept, no idea what i'll do with it.
 - Make them useful?
 - Maybe graphical representation of current blockchain (that would be cool)
 
+## How to use it
+- You can build both modules (main and miners) with root pom
+- Miners are using blockchain, you need to allow those processes to have write permission on directory that they are launched for serializing blockchain / logs
+
+
 
 Based on materials/sources from Jetbrains (they are great)
