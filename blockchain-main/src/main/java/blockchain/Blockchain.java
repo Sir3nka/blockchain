@@ -75,9 +75,11 @@ public class Blockchain implements Serializable {
 
     private String getMessages() {
         StringBuilder builder = new StringBuilder();
+
         while(!messages.isEmpty()) {
             builder.append(messages.poll()).append("\n");
         }
+
         return builder.toString();
     }
 

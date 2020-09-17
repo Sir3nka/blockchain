@@ -7,6 +7,7 @@ import blockchain.block.SimpleBlock;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class BlockDecorator implements SimpleBlock {
+
     protected SimpleBlock block;
 
     @Override

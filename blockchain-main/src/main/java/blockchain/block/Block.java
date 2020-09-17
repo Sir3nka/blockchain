@@ -12,8 +12,10 @@ import utils.StringUtil;
 
 @EqualsAndHashCode
 public class Block implements SimpleBlock {
+
     private static final double serialVersionUID = 42L;
     private static int leadingZeros = 0;
+
     @Getter
     private static Pattern regex;
 
